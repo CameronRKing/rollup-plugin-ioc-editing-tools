@@ -21,5 +21,14 @@
   "bugs": {
     "url": "https://github.com/CameronRKing/rollup-plugin-ioc-editing-tools/issues"
   },
-  "homepage": "https://github.com/CameronRKing/rollup-plugin-ioc-editing-tools#readme"
+  "homepage": "https://github.com/CameronRKing/rollup-plugin-ioc-editing-tools#readme",
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "esm": "^3.2.25",
+    "mocha": "^8.1.0"
+  },
+  "dependencies": {
+    "posthtml": "^0.13.1",
+    "recast": "^0.19.1"
+  }
 }
