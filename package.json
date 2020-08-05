@@ -2,8 +2,10 @@
   "name": "rollup-plugin-ioc-editing-tools",
   "version": "0.1.0",
   "description": "Adds some simple editing components for use with rollup-plugin-svelte-component-ioc and rollup-plugin-layout-intercept.",
-  "main": "src/index.js",
+  "main": "dist/index.js",
+  "module": "dist/index.es.js",
   "scripts": {
+    "build": "rollup -c",
     "test": "mocha -r esm '**.spec.js'"
   },
   "repository": {
@@ -25,7 +27,8 @@
   "devDependencies": {
     "chai": "^4.2.0",
     "esm": "^3.2.25",
-    "mocha": "^8.1.0"
+    "mocha": "^8.1.0",
+    "rollup": "^2.23.0"
   },
   "dependencies": {
     "posthtml": "^0.13.1",
