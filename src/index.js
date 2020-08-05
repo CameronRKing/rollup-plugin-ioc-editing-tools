@@ -5,14 +5,17 @@ export default function iocEditingTools({ extraDependencies }={}) {
     return {
         name: 'ioc-editing-tools',
         buildStart() {
-            const onShowHook = (layout) => {
-                console.log('the onShow hook has been called with', layout);
+            const onShowHook = (baseRow, makeCmp) => {
+                baseRow.addChild({
+                    type: 'column',
+                    content: [makeCmp('ioc-editing-tools/StoreList')]
+                }, 0);
             }
 
             Object.assign(extraDependencies, {
-                'ioc-editing-tools/AceEditor': { type: 'import', path: 'ioc-editing-tools:AceEditor.svelte' },
-                'ioc-editing-tools/StoreList': { type: 'import', path: 'ioc-editing-tools:StoreList.svelte' },
-                'ioc-editing-tools/Zephyr': { type: 'import', path: 'ioc-editing-tools:Zephyr.svelte' },
+                'ioc-editing-tools/AceEditor': { type: 'import', defaultOnly: true, path: 'ioc-editing-tools:AceEditor.svelte' },
+                'ioc-editing-tools/StoreList': { type: 'import', defaultOnly: true, path: 'ioc-editing-tools:StoreList.svelte' },
+                'ioc-editing-tools/Zephyr': { type: 'import', defaultOnly: true, path: 'ioc-editing-tools:Zephyr.svelte' },
                 'layout-intercept/onShow/ioc-editing-tools': { type: 'code', code: onShowHook.toString() }
             });
         },
