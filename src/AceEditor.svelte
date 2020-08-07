@@ -22,7 +22,7 @@ const commands = [
     {
         name: 'Build component',
         bindKey: { win: 'Ctrl-S', mac: 'Command-S' },
-        exec: (editor) => window.__DIS__.replaceFromSource(path, editor.getValue())
+        exec: (editor) => window.__DIS__.replaceComponent(path, editor.getValue())
     },
     {
         name: 'Start Zephyr',
