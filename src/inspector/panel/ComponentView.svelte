@@ -1,10 +1,25 @@
 <script>
-  // import { devtools } from 'chrome'
   import { selectedNode } from '../store.js'
   import Panel from './Panel.svelte'
   import Toolbar from '../toolbar/Toolbar.svelte'
   import Button from '../toolbar/Button.svelte'
   import PropertyList from './PropertyList.svelte'
+
+let path;
+$: {
+  let ctx, src;
+  ctx = $selectedNode.detail && $selectedNode.detail.ctx;
+  if (ctx) {
+    src = ctx.find(({ key }) => key == '__dis_src__');
+    if (src) {
+      path = src.value;
+    }
+  }
+}
+
+function openEditor(event) {
+  window.__DIS__.get()['ioc-editing-tools/openEditor'](path, { inNewTab: event.ctrlKey });
+}
 </script>
 
 <style>
@@ -32,6 +47,9 @@
   <div class="root">
     <Toolbar>
       <div class="spacer" />
+      {#if $selectedNode.type == 'component' && path}
+      <Button on:click={openEditor}>Open source</Button>
+      {/if}
       <Button
         disabled={$selectedNode.id === undefined}
         on:click={e => /* devtools.inspectedWindow.eval('inspect(window.$s)') */ console.log('devtools.inspectedWindow.eval("inspect(window.$s)")')}>

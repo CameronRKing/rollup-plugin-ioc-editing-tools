@@ -25,9 +25,9 @@
         if (Array.isArray(value)) return `[${value.map(stringify).join(', ')}]`
         if (value.__isFunction) return value.name + '()'
         if (value.__isSymbol) return value.name
-        return JSON.stringify(value); /*`{${Object.entries(value)
+        return `{${Object.entries(value)
           .map(([key, value]) => `${key}: ${stringify(value)}`)
-          .join(', ')}}`*/
+          .join(', ')}}`
     }
   }
 
