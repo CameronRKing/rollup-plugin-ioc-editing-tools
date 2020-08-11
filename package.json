@@ -37,11 +37,12 @@
     "rollup-plugin-svelte": "^5.2.3",
     "rollup-plugin-svelte-component-ioc": "file:../component-ioc",
     "sirv-cli": "^1.0.5",
-    "svelte": "^3.24.1",
-    "svelte-listener": "https://github.com/RedHatter/svelte-listener.git"
+    "svelte": "^3.24.1"
   },
   "dependencies": {
+    "findit": "^2.0.0",
     "posthtml": "^0.13.1",
-    "recast": "^0.19.1"
+    "recast": "^0.19.1",
+    "svelte-listener": "https://github.com/RedHatter/svelte-listener.git"
   }
 }

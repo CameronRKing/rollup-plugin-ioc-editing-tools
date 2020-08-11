@@ -1,5 +1,8 @@
 import fs from 'fs';
 import path from 'path';
+import findit from 'findit';
+import resolve from '@rollup/plugin-node-resolve';
+import commonjs from '@rollup/plugin-commonjs';
 
 import pkg from './package.json';
 
@@ -16,13 +19,19 @@ export default {
     plugins: [
         {
             buildStart() {
-                copyFile(this, 'AceEditor.svelte');
-                copyFile(this, 'StoreList.svelte');
-                copyFile(this, 'Zephyr.svelte');
+                const finder = findit('./src');
+                finder.on('file', file => {
+                    if (file == 'src\\index.js') return;
+
+                    copyFile(this, file.slice(4));
+                });
+                return new Promise(resolve => finder.on('end', resolve));
             }
-        }
+        },
+        resolve(),
+        commonjs(),
     ],
-    external: ['path', 'fs'],
+    external: ['path', 'fs', 'events'],
     output: [
         { format: 'cjs', file: pkg.main, exports: 'auto' },
         { format: 'esm', file: pkg.module }
