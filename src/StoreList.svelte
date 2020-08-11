@@ -2,6 +2,8 @@
 import { onMount } from 'svelte';
 export let gl_container, gl_layout;
 
+let ignoreWarning = gl_container;
+
 $: deps = Object.keys($__DIS__).sort();
 
 async function openEditor(layout, path, event) {
