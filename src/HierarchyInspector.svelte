@@ -10,9 +10,6 @@
   import Breadcrumbs from './inspector/Breadcrumbs.svelte'
   import ConnectMessage from './inspector/ConnectMessage.svelte'
   import Node from './inspector/nodes/Node.svelte'
-$: window.rn = $rootNodes;
-
-$: console.log($rootNodes.length);
 </script>
 
 <style>
@@ -41,7 +38,6 @@ $: console.log($rootNodes.length);
   </div>
 {:else if $rootNodes.length}
   <div class="node-tree dark chrome">
-    {console.log('I should be showing SOMETHING!')}
     <Toolbar>
       <ProfileButton />
       <PickerButton />
