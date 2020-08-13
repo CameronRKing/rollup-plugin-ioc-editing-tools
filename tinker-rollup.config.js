@@ -3,13 +3,15 @@ import resolve from '@rollup/plugin-node-resolve';
 import commonjs from '@rollup/plugin-commonjs';
 import livereload from 'rollup-plugin-livereload';
 import componentIoc from 'rollup-plugin-svelte-component-ioc';
-import path from 'path';
+import layoutIntercept from 'rollup-plugin-layout-intercept';
+import injections from './src/injections.js';
 
 export default {
-    input: 'tinker/index.js',
+    input: 'tinker/main.js',
     external: ['path', 'fs'],
     plugins: [
-        componentIoc({ root: __dirname, includeDependencies: false, exposeSource: true, ignore: ['/tinker', '/dist'] }),
+        layoutIntercept(),
+        componentIoc({ extraDependencies: injections, root: __dirname, includeDependencies: false, exposeSource: true, ignore: ['/tinker', '/dist'] }),
         svelte({ dev: true }),
         resolve(),
         commonjs(),
@@ -17,7 +19,7 @@ export default {
         livereload('tinker'),
     ],
     output: [
-        { format: 'esm', file: 'tinker/build.js' },
+        { format: 'esm', file: 'tinker/build/build.js' },
     ]
 };
 

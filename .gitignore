@@ -1,4 +1,4 @@
 node_modules/
 dist/
 tinker/src/
-tinker/build.js
+tinker/build/

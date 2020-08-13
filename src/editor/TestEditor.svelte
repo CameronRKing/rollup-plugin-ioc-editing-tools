@@ -11,6 +11,7 @@ function hydrateTest(src) {
         .bind(null, path => window.__DIS__.get()[path]);
 }
 
+// needs reporter interface
 function runMocha(testPaths) {
     const { Mocha, Suite } = window.__DIS__.get()['mocha'];
 
@@ -34,3 +35,5 @@ function runMocha(testPaths) {
 }
 
 </script>
+
+<div>todo: tests</div>
