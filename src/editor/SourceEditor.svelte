@@ -1,7 +1,7 @@
 <script>
 import { onMount, createEventDispatcher } from 'svelte';
 
-export function loadScript(src) {
+function loadScript(src) {
     return new Promise(resolve => {
         const script = document.createElement('script');
         script.src = src;
@@ -13,23 +13,18 @@ export function loadScript(src) {
 const dispatch = createEventDispatcher();
 
 let editDiv, editor;
-export let path, content;
+export let path, content, commands = [], mode = 'html'
 $: if (editor) {
     editor.setValue(content);
 }
 
-const commands = [
-    {
-        name: 'Build component',
-        bindKey: { win: 'Ctrl-S', mac: 'Command-S' },
-        exec: (editor) => window.__DIS__.replaceComponent(path, editor.getValue())
-    },
-    {
-        name: 'Start Zephyr',
-        bindKey: { win: 'Alt-Z', mac: 'Meta-Z' },
-        exec: (editor) => dispatch('startZephyr', { editor, path })
-    }
-];
+// const givenCommands = [
+//     {
+//         name: 'Build component',
+//         bindKey: { win: 'Ctrl-S', mac: 'Command-S' },
+//         exec: (editor) => window.__DIS__.replaceComponent(path, editor.getValue())
+//     },
+// ];
 
 function addCommands(editor, commands) {
     commands.forEach(command => editor.commands.addCommand(command));
@@ -49,6 +44,7 @@ onMount(async () => {
 
     ace.config.set('basePath', 'https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.11/');
     editor = ace.edit(editDiv);
+
     configure(editor);
     addCommands(editor, commands);
 });
@@ -58,7 +54,7 @@ function configure(editor) {
     // that lets you change all of this during runtime
     editor.setShowPrintMargin(false);
     editor.setTheme('ace/theme/cobalt');
-    editor.session.setMode('ace/mode/html');
+    editor.session.setMode(`ace/mode/${mode}`);
     editor.setKeyboardHandler('ace/keyboard/sublime');
 }
 

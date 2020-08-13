@@ -4,9 +4,13 @@ import TestEditor from './editor/TestEditor.svelte';
 import StoryEditor from './editor/StoryEditor.svelte';
 
 export let path;
+// should ComponentEditor fetch the source of the component?
+// should it also fetch the test source? the stories?
+// or should it delegate all of that to the nested components?
 export let content;
 
 let show = 'source';
+
 </script>
 
 <div>
@@ -21,10 +25,10 @@ let show = 'source';
     <SourceEditor {content} {path} />
 </div>
 <div class="tab-content" class:hide={show !== 'tests'}>
-    <TestEditor />
+    <TestEditor {path} />
 </div>
 <div class="tab-content" class:hide={show !== 'stories'}>
-    <StoryEditor />
+    <StoryEditor {path} />
 </div>
 
 <style>

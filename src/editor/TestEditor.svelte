@@ -1,4 +1,18 @@
 <script>
+import SourceEditor from './SourceEditor.svelte';
+
+export let path;
+
+$: testPath = $__DIS__['ioc-editing-tools/testPath'](path);
+$: content = $__DIS__[testPath] || '';
+
+const commands = [
+    {
+        name: 'Run tests',
+        bindKey: { win: 'Alt-R', mac: 'Meta-R' },
+        exec: (editor) => runMocha([editor.getValue()])
+    }
+];
 
 function convertImportToRequire(src) {
     return src.replace(/import/g, 'const')
@@ -12,8 +26,9 @@ function hydrateTest(src) {
 }
 
 // needs reporter interface
-function runMocha(testPaths) {
-    const { Mocha, Suite } = window.__DIS__.get()['mocha'];
+function runMocha(tests) {
+    const { Mocha } = window.__DIS__.get()['mocha'];
+    const { Suite } = Mocha;
 
     const tester = new Mocha();
     const {
@@ -22,8 +37,7 @@ function runMocha(testPaths) {
         EVENT_FILE_POST_REQUIRE
     } = Suite.constants;
 
-    testPaths.forEach(path => {
-        const src = window.__DIS__.get()[path];
+    tests.forEach(src => {
         const testFn = hydrateTest(src);
 
         tester.suite.emit(EVENT_FILE_PRE_REQUIRE, window, path, tester);
@@ -36,4 +50,4 @@ function runMocha(testPaths) {
 
 </script>
 
-<div>todo: tests</div>
+<SourceEditor {content} path={testPath} {commands} mode={'javascript'} />
