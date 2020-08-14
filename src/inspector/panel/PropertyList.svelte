@@ -8,6 +8,7 @@
 
   let errorMessages = {}
   function change(key, value) {
+    window.alert('Manual state updating has not yet been implemented');
     // devtools.inspectedWindow.eval(
     //   `__svelte_devtools_inject_state(${id}, '${key}', ${value})`,
     //   (result, error) =>

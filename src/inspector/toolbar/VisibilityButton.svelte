@@ -103,36 +103,13 @@
     <div on:click|stopPropagation={e => (isOpen = false)} />
     <ul>
       <span />
+      {#each Object.keys($visibility) as key (key)}
       <li
-        class:checked={$visibility.component}
-        on:click={e => ($visibility.component = !$visibility.component)}>
-        Components
+        class:checked={$visibility[key]}
+        on:click={e => ($visibility[key] = !$visibility[key])}>
+        {key[0].toUpperCase() + key.slice(1)}
       </li>
-      <li
-        class:checked={$visibility.element}
-        on:click={e => ($visibility.element = !$visibility.element)}>
-        Elements
-      </li>
-      <li
-        class:checked={$visibility.block}
-        on:click={e => ($visibility.block = !$visibility.block)}>
-        Blocks
-      </li>
-      <li
-        class:checked={$visibility.slot}
-        on:click={e => ($visibility.slot = !$visibility.slot)}>
-        Slots
-      </li>
-      <li
-        class:checked={$visibility.anchor}
-        on:click={e => ($visibility.anchor = !$visibility.anchor)}>
-        Anchors
-      </li>
-      <li
-        class:checked={$visibility.text}
-        on:click={e => ($visibility.text = !$visibility.text)}>
-        Text
-      </li>
+      {/each}
     </ul>
   {/if}
 </Button>

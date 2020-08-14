@@ -2,6 +2,7 @@
   import Collapse from './Collapse.svelte'
   import SearchTerm from './SearchTerm.svelte'
   import ElementAttributes from './ElementAttributes.svelte'
+  import { visibility } from '../store.js';
 
   export let style
   export let hasChildren
@@ -56,6 +57,7 @@
 
   .tag-name {
     color: rgb(0, 116, 232);
+    font-size: 18px;
   }
 
   :global(.dark) .tag-name {
@@ -74,25 +76,16 @@
     <span class="tag-name">
       <SearchTerm text={tagName} />
     </span>
+    {#if $visibility['attributes']}
     <ElementAttributes attributes={_attributes} {listeners} />
+    {/if}
     &gt;
     {#if collapsed}
-      &hellip;&lt;/
-      <span class="tag-name">
-        <SearchTerm text={tagName} />
-      </span>
-      &gt;
+      &hellip;
     {/if}
   </div>
   {#if !collapsed}
     <slot />
-    <div class:hover {style}>
-      &lt;/
-      <span class="tag-name">
-        <SearchTerm text={tagName} />
-      </span>
-      &gt;
-    </div>
   {/if}
 {:else}
   <div class:hover class:selected {style}>
@@ -100,7 +93,9 @@
     <span class="tag-name">
       <SearchTerm text={tagName} />
     </span>
+    {#if $visibility['attributes']}
     <ElementAttributes attributes={_attributes} {listeners} />
+    {/if}
     &nbsp;/&gt;
   </div>
 {/if}

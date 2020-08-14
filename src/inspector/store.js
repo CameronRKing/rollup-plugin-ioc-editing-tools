@@ -51,11 +51,12 @@ import { addNodeListener, getSvelteVersion } from './listener/index.js'
 
 export const visibility = writable({
   component: true,
-  element: true,
+  element: false,
+  attributes: false,
   block: true,
   iteration: true,
   slot: true,
-  text: true,
+  text: false,
   anchor: false
 })
 export const selectedNode = writable({})
