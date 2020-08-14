@@ -2,4 +2,4 @@
 
 </script>
 
-<div>todo: stories</div>
+<div>todo: figure out stories</div>

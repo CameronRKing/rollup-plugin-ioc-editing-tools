@@ -1,24 +1,21 @@
 <script>
 import SourceEditor from './editor/SourceEditor.svelte';
 import TestEditor from './editor/TestEditor.svelte';
-import StoryEditor from './editor/StoryEditor.svelte';
+import DocEditor from './editor/DocEditor.svelte';
 
 export let path;
-// should ComponentEditor fetch the source of the component?
-// should it also fetch the test source? the stories?
-// or should it delegate all of that to the nested components?
-export let content;
+// not sure how to use await efficiently with watch statements
+let content;
+$: window.__DIS__.lookupSource(path).then(src => content = src);
 
 let show = 'source';
 
 </script>
 
-<div>
-    <div class="tabs">
-        <div class="tab" class:selected={show == 'source'} on:click={() => show = 'source'}>Source</div>
-        <div class="tab" class:selected={show == 'tests'} on:click={() => show = 'tests'}>Tests</div>
-        <div class="tab" class:selected={show == 'stories'} on:click={() => show = 'stories'}>Stories</div>
-    </div>
+<div class="tabs">
+    <div class="tab" class:selected={show == 'source'} on:click={() => show = 'source'}>Source</div>
+    <div class="tab" class:selected={show == 'tests'} on:click={() => show = 'tests'}>Tests</div>
+    <div class="tab" class:selected={show == 'docs'} on:click={() => show = 'docs'}>Docs</div>
 </div>
 
 <div class="tab-content" class:hide={show !== 'source'}>
@@ -27,28 +24,29 @@ let show = 'source';
 <div class="tab-content" class:hide={show !== 'tests'}>
     <TestEditor {path} />
 </div>
-<div class="tab-content" class:hide={show !== 'stories'}>
-    <StoryEditor {path} />
+<div class="tab-content" class:hide={show !== 'docs'}>
+    <DocEditor {path} />
 </div>
 
 <style>
-.tabs {
+/* should definitely go in a tabs component */
+:global(.tabs) {
     display: flex;
     flex-flow: row nowrap;
     justify-content: space-around;
     align-items: flex-start;
 }
 
-.tab.selected {
+:global(.tab).selected {
     border-bottom: 2px solid green;
 }
 
-.tab-content {
+:global(.tab)-content {
     height: 100%;
     width: 100%;
 }
 
-.hide {
+:global(.hide) {
     display: none;
 }
 </style>

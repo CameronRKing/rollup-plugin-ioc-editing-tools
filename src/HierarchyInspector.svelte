@@ -13,17 +13,21 @@
 </script>
 
 <style>
-  div {
+  .node-tree div {
     display: flex;
     overflow: hidden;
     flex: 1 1 0;
     flex-direction: column;
   }
 
-  ul {
-    overflow: auto;
+  .node-tree :global(ul) {
     flex-grow: 1;
-    padding-top: 8px;
+    list-style: none;
+    padding: 0;
+  }
+
+  .node-tree :global(li) {
+    padding-top: 4px;
   }
 
   .root div {
@@ -37,7 +41,7 @@
     <Profiler />
   </div>
 {:else if $rootNodes.length}
-  <div class="node-tree dark chrome">
+  <div class="node-tree">
     <Toolbar>
       <ProfileButton />
       <PickerButton />

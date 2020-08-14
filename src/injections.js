@@ -15,20 +15,19 @@ async function openEditor(path, { inNewTab=false }={}) {
     const layout = store['layout-intercept/gl_layout'];
     const makeCmp = store['layout-intercept/makeCmp'];
 
-    const content = await window.__DIS__.lookupSource(path);
-    const aceItem = makeCmp('@PREFIX/ComponentEditor.svelte', { content, path, lm_title: path });
+    const editorItem = makeCmp('@PREFIX/ComponentEditor.svelte', { path, lm_title: path });
 
     const baseRow = layout.root.contentItems[0];
     if (baseRow.contentItems.length < 3) {
         baseRow.addChild({
             type: 'column',
-            content: [aceItem]
+            content: [editorItem]
         }, 1)
     } else {
         if (inNewTab)
-            baseRow.contentItems[1].addChild(aceItem);
+            baseRow.contentItems[1].addChild(editorItem);
         else
-            baseRow.contentItems[1].replaceChild(baseRow.contentItems[1].contentItems[0], aceItem);
+            baseRow.contentItems[1].replaceChild(baseRow.contentItems[1].contentItems[0], editorItem);
     }
 }
 
@@ -37,8 +36,14 @@ function testPath(path) {
         .replace(/\..+$/, '.spec.js');
 }
 
+function docPath(path) {
+    return path.replace(/^\/src\//, '/doc/')
+        .replace(/\..+$/, '.svx');
+}
+
 export default {
     'ioc-editing-tools/testPath': { type: 'code', code: testPath.toString() },
+    'ioc-editing-tools/docPath': { type: 'code', code: docPath.toString() },
     'ioc-editing-tools/openEditor': { type: 'code', code: openEditor.toString().replace(/@PREFIX/g, prefix) },
     'layout-intercept/onShow/ioc-editing-tools.js': { type: 'code', code: onShowHook.toString().replace(/@PREFIX/g, prefix) }
 };

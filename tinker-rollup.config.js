@@ -6,7 +6,6 @@ import componentIoc from 'rollup-plugin-svelte-component-ioc';
 import layoutIntercept from 'rollup-plugin-layout-intercept';
 import nodePolyfills from 'rollup-plugin-node-polyfills';
 import json from '@rollup/plugin-json';
-import fs from 'fs';
 
 import injections from './src/injections.js';
 
