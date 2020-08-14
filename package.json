@@ -45,7 +45,6 @@
   "dependencies": {
     "findit": "^2.0.0",
     "posthtml": "^0.13.1",
-    "recast": "^0.19.1",
-    "svelte-listener": "https://github.com/RedHatter/svelte-listener.git"
+    "recast": "^0.19.1"
   }
 }

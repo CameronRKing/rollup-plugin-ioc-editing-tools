@@ -1,5 +1,5 @@
 import { writable, get, derived } from 'svelte/store'
-import { addNodeListener, getSvelteVersion } from 'svelte-listener'
+import { addNodeListener, getSvelteVersion } from './listener/index.js'
 
 //
 // when I copied things over, I forgot to include these little bad boys
@@ -369,11 +369,11 @@ addNodeListener({
     }, 100)
   },
   remove(node) {
-    node = serializeNode(node);
     const toRemove = nodeMap.get(node.id);
     nodeMap.delete(toRemove.id)
 
-    // I added this check because the removed node doesn't always have a parent for some reason
+    // I added this check because the removed node doesn't always have a parent
+    // e.g., if the node is root-level from the Svelte perspective
     if (toRemove.parent) {
       const index = toRemove.parent.children.findIndex(o => o.id == toRemove.id)
       toRemove.parent.children.splice(index, 1)
