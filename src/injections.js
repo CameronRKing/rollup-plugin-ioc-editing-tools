@@ -6,7 +6,13 @@ const prefix = production ? 'ioc-editing-tools' : '/src';
 function onShowHook(baseRow, makeCmp) {
     baseRow.addChild({
         type: 'column',
-        content: [makeCmp('@PREFIX/HierarchyInspector.svelte')]
+        content: [{
+            type: 'stack',
+            content: [
+                makeCmp('@PREFIX/HierarchyInspector.svelte', { lm_title: 'Page Inspector' }),
+                makeCmp('@PREFIX/StoreList.svelte', { lm_title: 'Store List' })
+            ]
+        }]
     }, 0);
 }
 

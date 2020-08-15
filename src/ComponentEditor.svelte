@@ -5,7 +5,7 @@ import DocEditor from './editor/DocEditor.svelte';
 
 export let path;
 // not sure how to use await efficiently with watch statements
-let content;
+let content = '';
 $: window.__DIS__.lookupSource(path).then(src => content = src);
 
 let show = 'source';
