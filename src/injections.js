@@ -3,37 +3,30 @@
 const production = !process.env.ROLLUP_WATCH;
 const prefix = production ? 'ioc-editing-tools' : '/src';
 
-function onShowHook(baseRow, makeCmp) {
-    baseRow.addChild({
-        type: 'column',
-        content: [{
-            type: 'stack',
-            content: [
-                makeCmp('@PREFIX/HierarchyInspector.svelte', { lm_title: 'Page Inspector' }),
-                makeCmp('@PREFIX/StoreList.svelte', { lm_title: 'Store List' })
-            ]
-        }]
-    }, 0);
+function onShowHook(layout, makeCmp, widgets) {
+    const dock = new widgets.DockPanel();
+    dock.addWidget(makeCmp('@PREFIX/HierarchyInspector.svelte', {}, { label: 'Page Inspector' }));
+    dock.addWidget(makeCmp('@PREFIX/StoreList.svelte', {}, { label: 'Store List' }));
+
+    layout.widgets[0].insertWidget(0, dock);
 }
 
 async function openEditor(path, { inNewTab=false }={}) {
     const store = window.__DIS__.get();
-    const layout = store['layout-intercept/gl_layout'];
+    const layout = store['layout-intercept/layout'];
     const makeCmp = store['layout-intercept/makeCmp'];
+    const widgets = store['layout-intercept/widgets'];
 
-    const editorItem = makeCmp('@PREFIX/ComponentEditor.svelte', { path, lm_title: path });
+    const editorItem = makeCmp('@PREFIX/ComponentEditor.svelte', { path }, { label: path });
 
-    const baseRow = layout.root.contentItems[0];
-    if (baseRow.contentItems.length < 3) {
-        baseRow.addChild({
-            type: 'column',
-            content: [editorItem]
-        }, 1)
+    // not a fan of this order-based logic
+    const splitPanel = layout.widgets[0];
+    if (splitPanel.widgets.length < 3) {
+        const dock = new widgets.DockPanel();
+        dock.addWidget(editorItem);
+        splitPanel.insertWidget(1, dock);
     } else {
-        if (inNewTab)
-            baseRow.contentItems[1].addChild(editorItem);
-        else
-            baseRow.contentItems[1].replaceChild(baseRow.contentItems[1].contentItems[0], editorItem);
+        splitPanel.widgets[1].addWidget(editorItem);
     }
 }
 

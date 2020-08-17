@@ -6,6 +6,9 @@ import componentIoc from 'rollup-plugin-svelte-component-ioc';
 import layoutIntercept from 'rollup-plugin-layout-intercept';
 import nodePolyfills from 'rollup-plugin-node-polyfills';
 import json from '@rollup/plugin-json';
+import styles from 'rollup-plugin-styles';
+import fs from 'fs';
+import path from 'path';
 
 import injections from './src/injections.js';
 
@@ -18,6 +21,26 @@ const extraDependencies = {
 export default {
     input: 'tinker/main.js',
     plugins: [
+        styles({
+            import: {
+                // @lumino's file extension is CSS
+                // but it relies on ~ import syntax
+                // which is apparently a SASS thing
+                // so we have to shim it manually here
+                resolve(url, basedir, exts) {
+                    let from;
+                    if (url.startsWith('~')) {
+                        from = path.resolve(path.resolve(__dirname, 'node_modules'), url.slice(1));
+                    } else {
+                        from = path.resolve(basedir, url);
+                    }
+                    return {
+                        from,
+                        source: fs.readFileSync(from)
+                    };
+                }
+            }
+        }),
         commonjs(),
         json(),
         nodePolyfills(),
