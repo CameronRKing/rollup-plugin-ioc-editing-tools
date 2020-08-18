@@ -2,6 +2,25 @@
 import SourceEditor from './editor/SourceEditor.svelte';
 import TestEditor from './editor/TestEditor.svelte';
 import DocEditor from './editor/DocEditor.svelte';
+import { CommandRegistry } from '@lumino/commands';
+import { CommandPalette, Widget } from '@lumino/widgets';
+
+const commands = new CommandRegistry();
+commands.addCommand('log-foo', {
+    label: 'Log `foo`',
+    caption: 'Logs `foo` to the console',
+    execute: () => console.log('foo')
+});
+commands.addKeyBinding({
+    command: 'log-foo',
+    keys: ['Alt C'],
+    selector: '.lm-Widget'
+});
+
+
+const palette = new CommandPalette({ commands });
+// why the palette doesn't pick up items from the COMMAND REGISTRY IT IS GIVEN is beyond me
+commands.listCommands().forEach(command => palette.addItem({ category: 'all', command }));
 
 export let path;
 // not sure how to use await efficiently with watch statements
@@ -27,6 +46,8 @@ let show = 'source';
 <div class="tab-content" class:hide={show !== 'docs'}>
     <DocEditor {path} />
 </div>
+
+<svelte:window on:keydown={e => commands.processKeydownEvent(e)} />
 
 <style>
 /* should definitely go in a tabs component */
