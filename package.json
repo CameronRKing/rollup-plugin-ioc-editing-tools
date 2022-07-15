@@ -41,7 +41,7 @@
     "rollup-plugin-svelte": "^5.2.3",
     "rollup-plugin-svelte-component-ioc": "file:../component-ioc",
     "sirv-cli": "^1.0.5",
-    "svelte": "^3.24.1"
+    "svelte": "^3.49.0"
   },
   "dependencies": {
     "@lumino/default-theme": "^0.4.4",
